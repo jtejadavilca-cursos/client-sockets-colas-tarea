@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "colas"
+    }
+  },
+  "defaultProject": "colas",
+  "cli": {
+    "analytics": false
+  }
 }
