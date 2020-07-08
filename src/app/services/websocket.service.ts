@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Usuario } from '../classes/usuario';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { FuncCallback } from '../utils/functions.types';
 
 
 @Injectable({
@@ -21,7 +23,7 @@ export class WebsocketService {
   }
 
 
-    checkStatus() {
+    checkStatus(): void {
 
       this.socket.on('connect', () => {
         console.log('Conectado al servidor');
@@ -36,7 +38,7 @@ export class WebsocketService {
     }
 
 
-    emit( evento: string, payload?: any, callback?: Function ) {
+    emit( evento: string, payload?: any, callback?: FuncCallback ): void {
 
       console.log('Emitiendo', evento);
       // emit('EVENTO', payload, callback?)
@@ -44,11 +46,11 @@ export class WebsocketService {
 
     }
 
-    listen( evento: string ) {
+    listen( evento: string ): Observable<any> {
       return this.socket.fromEvent( evento );
     }
 
-    loginWS( nombre: string ) {
+    loginWS( nombre: string ): Promise<void> {
 
       return new Promise(  (resolve, reject) => {
 
@@ -65,7 +67,7 @@ export class WebsocketService {
 
     }
 
-    logoutWS() {
+    logoutWS(): void {
       this.usuario = null;
       localStorage.removeItem('usuario');
 
@@ -79,15 +81,15 @@ export class WebsocketService {
     }
 
 
-    getUsuario() {
+    getUsuario(): Usuario {
       return this.usuario;
     }
 
-    guardarStorage() {
+    guardarStorage(): void {
       localStorage.setItem( 'usuario', JSON.stringify( this.usuario ) );
     }
 
-    cargarStorage() {
+    cargarStorage(): void {
 
       if ( localStorage.getItem('usuario') ) {
         this.usuario = JSON.parse( localStorage.getItem('usuario') );

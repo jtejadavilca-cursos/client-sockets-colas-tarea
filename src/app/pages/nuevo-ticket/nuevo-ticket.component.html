@@ -2,14 +2,17 @@
     <tr>
         <td>
             <span id="lblNuevoTicket">
-                Cargando...
+                {{ nuevoTicket ? 'Su ticket es : ' + nuevoTicket.codigo : 'Click para solicitar un ticket' }}
             </span>
         </td>
     </tr>
     <tr>
         <td>
-            <button class="btn btn-secondary btn-lg">
+            <button class="btn btn-secondary btn-lg" *ngIf="!nuevoTicket" (click)="crearNuevoTicket()">
                 Generar nuevo ticket
+            </button>
+            <button class="btn btn-secondary btn-lg" *ngIf="nuevoTicket" (click)="verPantallaPublica()">
+                Ver pantalla de atención
             </button>
         </td>
     </tr>

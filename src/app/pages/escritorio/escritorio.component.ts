@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { WebsocketService } from '../../services/websocket.service';
+import { ActivatedRoute } from '@angular/router';
+import Ticket from '../../classes/ticket';
 
 @Component({
   selector: 'app-escritorio',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EscritorioComponent implements OnInit {
 
-  constructor() { }
+  private escritorio: number;
+  private siguienteTicket: Ticket = null;
+
+  constructor(
+    private actRouter: ActivatedRoute,
+    private wsService: WebsocketService
+  ) { }
+
 
   ngOnInit(): void {
+    this.escritorio = Number(this.actRouter.snapshot.paramMap.get('id'));
+  }
+
+  atenderSiguienteTicket(): void {
+    this.wsService.emit('atender-ticket', this.escritorio, ( siguienteTicket: Ticket ) => this.siguienteTicket = siguienteTicket);
   }
 
 }
